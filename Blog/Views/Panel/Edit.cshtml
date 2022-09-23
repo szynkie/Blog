@@ -9,17 +9,35 @@
         <input asp-for="Id" type="hidden"/>
         <div>
             <label>Title</label>
-            <input asp-for="Title" />
+            <input asp-for="Title" required/>
+        </div>
+        <div>
+            <label>Description</label>
+            <input asp-for="Description" required />
+        </div>
+        <div>
+            <label>Tags</label>
+            <input asp-for="Tags" required />
+        </div>
+        <div>
+            <label>Category</label>
+            
+            
+                <select asp-for="Category" >
+                <option value="Travel">Travel</option>
+                <option value="Photo">Photo</option>
+                <option value="Story">Story</option>
+            </select>
         </div>
         <div>
             <label>Body</label>
             
-            <textarea id="editor" asp-for="Body"></textarea>
+            <textarea id="editor" asp-for="Body" required></textarea>
         </div>
         <div>
             <label>Image</label>
             <input asp-for="CurrentImage" type="hidden"/>
-            <input asp-for="Image" />
+            <input asp-for="Image" required/>
         </div>
         <input type="submit" value="Submit" />
     </form>

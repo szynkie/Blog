@@ -36,7 +36,10 @@ namespace Blog.Controllers
                 return View(new PostViewModel { Id = post.Id,
                 Title = post.Title,
                 Body = post.Body,
-                CurrentImage = post.Image
+                CurrentImage = post.Image,
+                    Description = post.Description,
+                    Category = post.Category,
+                    Tags = post.Tags
                 });
             }
         }
@@ -49,15 +52,26 @@ namespace Blog.Controllers
                 Id = vm.Id,
                 Title = vm.Title,
                 Body = vm.Body,
-                Image = await _fileManager.SaveImage(vm.Image)
+                Description = vm.Description,
+                Category = vm.Category,
+                Tags = vm.Tags
+                //Image = await _fileManager.SaveImage(vm.Image)
+
             };
 
             if (vm.Image == null)
             {
                 post.Image = vm.CurrentImage;
             }
-            else
-            post.Image = await _fileManager.SaveImage(vm.Image);
+            else {
+                if (!String.IsNullOrEmpty(vm.CurrentImage))
+                    _fileManager.RemoveImage(vm.CurrentImage);
+
+                
+                post.Image = await _fileManager.SaveImage(vm.Image);
+
+            }
+            
             if (post.Id > 0)
                 _repo.UpdatePost(post);
             else

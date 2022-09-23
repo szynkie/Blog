@@ -1,12 +1,20 @@
-﻿@model IEnumerable<Post>
+﻿@model IndexViewModel
 @{
-
+    ViewBag.Title = "Blog Website";
+    ViewBag.Description = "This Blog is awesome!";
+    ViewBag.Keywords = "blog travel story photo";
+    var base_path = Context.Request.PathBase;
 }
 @*<h2>Home Page!</h2>
 <img src="~/content/static/blog.jpg" width="500px" />*@
 
 <div class="main-img">
     <span class="title">Amazing Blog Site</span>
+    <form asp-controller="Home" asp-action="Index" method="get">
+        <input type="hidden" name="pageNumber" value="@Model.PageNumber"/>
+        <input type="hidden" name="category" value="@Model.Category" />
+    <input class="search" type="text" name="search" placeholder="Search..." value="@Model.Search" />
+    </form>
 </div>
 
 <div class="container">
@@ -20,9 +28,10 @@
             </li>
         }
     </ul>*@
-    @foreach (var post in Model)
+    <partial name="_BlogPagination" model="Model" />
+    @foreach (var post in Model.Posts)
     {
-        var image_path = $"/Image/{post.Image}";
+        var image_path = $"{base_path}/Image/{post.Image}";
             <a class="post" asp-controller="Home" asp-action="Post" asp-route-id="@post.Id">
             
             <img src="@image_path" />
@@ -30,4 +39,6 @@
                 
             </a>
     }
+    
+    <partial name="_BlogPagination" model="Model"/>
 </div>
